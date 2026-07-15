@@ -40,10 +40,18 @@ export default async function DashboardPage() {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="w-[140px]">Created On</TableHead>
-                  <TableHead>Task Name</TableHead>
-                  <TableHead className="w-[220px]">Due On</TableHead>
-                  <TableHead className="w-[160px]">Status</TableHead>
+                  <TableHead className="w-[140px] px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                    Created On
+                  </TableHead>
+                  <TableHead className="px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                    Task Name
+                  </TableHead>
+                  <TableHead className="w-[240px] px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                    Due On
+                  </TableHead>
+                  <TableHead className="w-[170px] px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                    Status
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

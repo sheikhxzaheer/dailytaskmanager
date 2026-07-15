@@ -29,7 +29,8 @@ export function StatusSelect({
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
-  function handleChange(next: string) {
+  function handleChange(next: string | null) {
+    if (!next) return;
     setError(null);
     startTransition(async () => {
       const result = await updateTaskStatus(taskId, next as Status);

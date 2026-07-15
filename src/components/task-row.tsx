@@ -9,27 +9,27 @@ import { User } from "lucide-react";
 export function TaskRow({ task }: { task: Task }) {
   return (
     <TableRow className="group">
-      <TableCell className="text-sm text-muted-foreground">
+      <TableCell className="px-4 py-3.5 text-sm text-muted-foreground">
         {formatCreatedOn(task.created_on)}
       </TableCell>
-      <TableCell>
-        <div className="flex items-center gap-2">
+      <TableCell className="px-4 py-3.5 whitespace-normal">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm font-medium text-foreground">
             {task.task_name}
           </span>
           <PriorityBadge priority={task.priority} />
         </div>
         {task.dependency_type === "Other" && task.dependency_person && (
-          <div className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+          <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
             <User className="size-3" />
             {task.dependency_person}
           </div>
         )}
       </TableCell>
-      <TableCell>
+      <TableCell className="px-4 py-3.5">
         <DueIndicator dueOn={task.due_on} />
       </TableCell>
-      <TableCell>
+      <TableCell className="px-4 py-3.5">
         <StatusSelect taskId={task.id} status={task.status} />
       </TableCell>
     </TableRow>
