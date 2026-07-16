@@ -7,7 +7,7 @@ export function TaskGroup({ group }: { group: TaskGroupType }) {
     <>
       <TableRow className="border-none hover:bg-transparent">
         <TableCell
-          colSpan={4}
+          colSpan={5}
           className="bg-muted/40 px-4 py-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase"
         >
           {group.label}

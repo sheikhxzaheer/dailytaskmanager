@@ -61,6 +61,62 @@ export async function createTask(formData: FormData): Promise<ActionResult> {
   return { ok: true };
 }
 
+export async function updateTask(
+  id: string,
+  formData: FormData
+): Promise<ActionResult> {
+  const taskName = String(formData.get("task_name") ?? "").trim();
+  const dueOn = String(formData.get("due_on") ?? "").trim();
+  const priority = String(formData.get("priority") ?? "");
+  const dependencyType = String(formData.get("dependency_type") ?? "");
+  const dependencyPersonRaw = String(formData.get("dependency_person") ?? "").trim();
+  const status = String(formData.get("status") ?? "");
+
+  if (taskName.length === 0) {
+    return { ok: false, error: "Task name is required." };
+  }
+  if (!isValidDate(dueOn)) {
+    return { ok: false, error: "A valid due date is required." };
+  }
+  if (!PRIORITIES.includes(priority as (typeof PRIORITIES)[number])) {
+    return { ok: false, error: "Invalid priority." };
+  }
+  if (!DEPENDENCY_TYPES.includes(dependencyType as (typeof DEPENDENCY_TYPES)[number])) {
+    return { ok: false, error: "Invalid dependency type." };
+  }
+  if (dependencyType === "Other" && dependencyPersonRaw.length === 0) {
+    return { ok: false, error: "Please enter the name of the other person." };
+  }
+  if (!STATUSES.includes(status as (typeof STATUSES)[number])) {
+    return { ok: false, error: "Invalid status." };
+  }
+
+  const dependencyPerson = dependencyType === "Other" ? dependencyPersonRaw : null;
+  const completedAt = status === "Completed" ? new Date().toISOString() : null;
+
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase
+    .from("tasks")
+    .update({
+      task_name: taskName,
+      due_on: dueOn,
+      priority,
+      dependency_type: dependencyType,
+      dependency_person: dependencyPerson,
+      status,
+      completed_at: completedAt,
+    })
+    .eq("id", id);
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  revalidatePath("/");
+  revalidatePath("/completed");
+  return { ok: true };
+}
+
 export async function updateTaskStatus(
   id: string,
   status: Status

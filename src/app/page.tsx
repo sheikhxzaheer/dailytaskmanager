@@ -59,6 +59,7 @@ export default async function DashboardPage() {
                     <TableHead className="w-[170px] px-4 py-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
                       Status
                     </TableHead>
+                    <TableHead className="w-[64px] px-4 py-3" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>

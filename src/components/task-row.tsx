@@ -2,6 +2,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import type { Task } from "@/lib/types";
 import { formatCreatedOn } from "@/lib/date";
 import { DueIndicator } from "./due-indicator";
+import { EditTaskDialog } from "./edit-task-dialog";
 import { PriorityBadge } from "./priority-badge";
 import { StatusSelect } from "./status-select";
 import { User } from "lucide-react";
@@ -31,6 +32,9 @@ export function TaskRow({ task }: { task: Task }) {
       </TableCell>
       <TableCell className="px-4 py-3.5">
         <StatusSelect taskId={task.id} status={task.status} />
+      </TableCell>
+      <TableCell className="px-4 py-3.5 text-right">
+        <EditTaskDialog task={task} />
       </TableCell>
     </TableRow>
   );
