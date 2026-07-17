@@ -31,6 +31,10 @@ export function formatDueDate(dueOn: string): string {
   return format(d, "EEE, MMM d");
 }
 
+export function isDueToday(dueOn: string): boolean {
+  return isToday(parseISO(dueOn));
+}
+
 export function formatCreatedOn(createdOn: string): string {
   return format(parseISO(createdOn), "MMM d, yyyy");
 }

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { formatDueDate, getOverdueLevel, getDaysOverdue } from "@/lib/date";
+import { formatDueDate, getOverdueLevel, getDaysOverdue, isDueToday } from "@/lib/date";
 
 const LEVEL_CLASSES: Record<"yellow" | "red", string> = {
   yellow:
@@ -14,18 +14,22 @@ const DOT_CLASSES: Record<"yellow" | "red", string> = {
 
 export function DueIndicator({ dueOn }: { dueOn: string }) {
   const level = getOverdueLevel(dueOn);
+  const dueToday = isDueToday(dueOn);
+
+  const dateTextClasses = cn(
+    "text-sm",
+    dueToday ? "font-semibold text-blue-600 dark:text-blue-400" : "text-foreground"
+  );
 
   if (level === "none") {
-    return (
-      <span className="text-sm text-foreground">{formatDueDate(dueOn)}</span>
-    );
+    return <span className={dateTextClasses}>{formatDueDate(dueOn)}</span>;
   }
 
   const daysOverdue = getDaysOverdue(dueOn);
 
   return (
     <span className="inline-flex items-center gap-2">
-      <span className="text-sm text-foreground">{formatDueDate(dueOn)}</span>
+      <span className={dateTextClasses}>{formatDueDate(dueOn)}</span>
       <span
         className={cn(
           "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset",
