@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-muted/40">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60">
-            <div className="mx-auto flex w-full max-w-6xl items-center gap-2 px-4 py-3.5 sm:px-6">
+            <div className="flex w-full items-center gap-2 px-4 py-3.5 sm:px-6">
               <MobileNav />
               <div className="flex items-center gap-2">
                 <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-foreground text-background">
@@ -51,13 +51,13 @@ export default function RootLayout({
               </div>
             </div>
           </header>
-          <div className="mx-auto flex w-full max-w-6xl flex-1 gap-8 px-4 py-8 sm:px-6 sm:py-10">
+          <div className="flex w-full flex-1 gap-8 px-4 py-8 sm:px-6 sm:py-10">
             <aside className="hidden w-52 shrink-0 sm:block">
               <div className="sticky top-24">
                 <SidebarNav />
               </div>
             </aside>
-            <main className="min-w-0 flex-1">{children}</main>
+            <main className="mx-auto w-full min-w-0 max-w-6xl flex-1">{children}</main>
           </div>
         </ThemeProvider>
       </body>
