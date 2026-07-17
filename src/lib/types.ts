@@ -1,8 +1,9 @@
-import type { PRIORITIES, DEPENDENCY_TYPES, STATUSES } from "./constants";
+import type { PRIORITIES, DEPENDENCY_TYPES, STATUSES, CATEGORIES } from "./constants";
 
 export type Priority = (typeof PRIORITIES)[number];
 export type DependencyType = (typeof DEPENDENCY_TYPES)[number];
 export type Status = (typeof STATUSES)[number];
+export type Category = (typeof CATEGORIES)[number];
 
 export interface Task {
   id: string;
@@ -13,6 +14,7 @@ export interface Task {
   dependency_type: DependencyType;
   dependency_person: string | null;
   status: Status;
+  category: Category;
   completed_at: string | null;
 }
 

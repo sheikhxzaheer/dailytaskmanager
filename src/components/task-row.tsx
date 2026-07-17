@@ -1,6 +1,7 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { Task } from "@/lib/types";
 import { formatCreatedOn } from "@/lib/date";
+import { CategoryBadge } from "./category-badge";
 import { DeleteTaskDialog } from "./delete-task-dialog";
 import { DueIndicator } from "./due-indicator";
 import { EditTaskDialog } from "./edit-task-dialog";
@@ -19,6 +20,7 @@ export function TaskRow({ task }: { task: Task }) {
           <span className="text-sm font-medium text-foreground">
             {task.task_name}
           </span>
+          <CategoryBadge category={task.category} />
           <PriorityBadge priority={task.priority} />
         </div>
         {task.dependency_type === "Other" && task.dependency_person && (

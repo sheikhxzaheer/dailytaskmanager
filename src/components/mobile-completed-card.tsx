@@ -1,5 +1,6 @@
 import { formatCompletedOn, formatDueDate } from "@/lib/date";
 import type { Task } from "@/lib/types";
+import { CategoryBadge } from "./category-badge";
 import { DeleteTaskDialog } from "./delete-task-dialog";
 import { PriorityBadge } from "./priority-badge";
 import { RestoreButton } from "./restore-button";
@@ -11,6 +12,7 @@ export function MobileCompletedCard({ task }: { task: Task }) {
         <span className="text-sm font-medium text-foreground">
           {task.task_name}
         </span>
+        <CategoryBadge category={task.category} />
         <PriorityBadge priority={task.priority} />
       </div>
       <div className="flex items-center justify-between text-xs text-muted-foreground">

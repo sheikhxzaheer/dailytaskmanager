@@ -52,6 +52,7 @@ A personal **daily task manager** web app.
 | `dependency_type` | `text` | one of `Self` \| `Other`, default `Self` |
 | `dependency_person` | `text` | nullable; **required (non-empty) when `dependency_type = 'Other'`** |
 | `status` | `text` | one of `Not Started` \| `In Progress` \| `Completed`, default `Not Started` |
+| `category` | `text` | one of `KMX` \| `KM`, default `KMX` |
 | `completed_at` | `timestamptz` | nullable; set to `now()` when status becomes `Completed`, cleared (`null`) otherwise. Used for the 1-month retention. |
 
 ### 4.2 SQL — run this in Supabase SQL editor
@@ -71,6 +72,8 @@ create table if not exists public.tasks (
   dependency_person text,
   status text not null default 'Not Started'
     check (status in ('Not Started','In Progress','Completed')),
+  category text not null default 'KMX'
+    check (category in ('KMX','KM')),
   completed_at timestamptz,
   constraint dependency_person_required
     check (
@@ -86,6 +89,14 @@ create index if not exists tasks_completed_at_idx  on public.tasks (completed_at
 -- Lock the table down. Service role (used only server-side) bypasses RLS.
 -- Anon/authenticated keys get NO access, so the DB is safe even though there's no login.
 alter table public.tasks enable row level security;
+```
+
+### 4.3 Migration — run this if the `tasks` table already exists
+
+```sql
+alter table public.tasks
+  add column if not exists category text not null default 'KMX'
+    check (category in ('KMX','KM'));
 ```
 
 ### 4.3 TypeScript types (`lib/types.ts`)

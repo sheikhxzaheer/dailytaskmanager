@@ -24,8 +24,8 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { updateTask } from "@/lib/actions";
-import { PRIORITIES, STATUSES } from "@/lib/constants";
-import type { DependencyType, Priority, Status, Task } from "@/lib/types";
+import { PRIORITIES, STATUSES, CATEGORIES } from "@/lib/constants";
+import type { Category, DependencyType, Priority, Status, Task } from "@/lib/types";
 
 export function EditTaskDialog({ task }: { task: Task }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +34,7 @@ export function EditTaskDialog({ task }: { task: Task }) {
   );
   const [priority, setPriority] = useState<Priority>(task.priority);
   const [status, setStatus] = useState<Status>(task.status);
+  const [category, setCategory] = useState<Category>(task.category);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -42,6 +43,7 @@ export function EditTaskDialog({ task }: { task: Task }) {
     setDependencyType(task.dependency_type);
     setPriority(task.priority);
     setStatus(task.status);
+    setCategory(task.category);
   }
 
   function handleSubmit(formData: FormData) {
@@ -49,6 +51,7 @@ export function EditTaskDialog({ task }: { task: Task }) {
     formData.set("priority", priority);
     formData.set("status", status);
     formData.set("dependency_type", dependencyType);
+    formData.set("category", category);
     startTransition(async () => {
       const result = await updateTask(task.id, formData);
       if (!result.ok) {
@@ -103,6 +106,25 @@ export function EditTaskDialog({ task }: { task: Task }) {
               defaultValue={task.due_on}
               required
             />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label>Category</Label>
+            <Select
+              value={category}
+              onValueChange={(v) => setCategory(v as Category)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORIES.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="flex flex-col gap-1.5">

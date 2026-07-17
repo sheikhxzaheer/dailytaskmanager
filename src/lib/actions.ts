@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "./supabase/server";
-import { PRIORITIES, DEPENDENCY_TYPES, STATUSES } from "./constants";
+import { PRIORITIES, DEPENDENCY_TYPES, STATUSES, CATEGORIES } from "./constants";
 import type { ActionResult, Status } from "./types";
 
 function isValidDate(value: string): boolean {
@@ -18,6 +18,7 @@ export async function createTask(formData: FormData): Promise<ActionResult> {
   const dependencyType = String(formData.get("dependency_type") ?? "");
   const dependencyPersonRaw = String(formData.get("dependency_person") ?? "").trim();
   const status = String(formData.get("status") ?? "Not Started");
+  const category = String(formData.get("category") ?? "");
 
   if (taskName.length === 0) {
     return { ok: false, error: "Task name is required." };
@@ -37,6 +38,9 @@ export async function createTask(formData: FormData): Promise<ActionResult> {
   if (!STATUSES.includes(status as (typeof STATUSES)[number])) {
     return { ok: false, error: "Invalid status." };
   }
+  if (!CATEGORIES.includes(category as (typeof CATEGORIES)[number])) {
+    return { ok: false, error: "Invalid category." };
+  }
 
   const dependencyPerson = dependencyType === "Other" ? dependencyPersonRaw : null;
   const completedAt = status === "Completed" ? new Date().toISOString() : null;
@@ -49,6 +53,7 @@ export async function createTask(formData: FormData): Promise<ActionResult> {
     dependency_type: dependencyType,
     dependency_person: dependencyPerson,
     status,
+    category,
     completed_at: completedAt,
   });
 
@@ -71,6 +76,7 @@ export async function updateTask(
   const dependencyType = String(formData.get("dependency_type") ?? "");
   const dependencyPersonRaw = String(formData.get("dependency_person") ?? "").trim();
   const status = String(formData.get("status") ?? "");
+  const category = String(formData.get("category") ?? "");
 
   if (taskName.length === 0) {
     return { ok: false, error: "Task name is required." };
@@ -90,6 +96,9 @@ export async function updateTask(
   if (!STATUSES.includes(status as (typeof STATUSES)[number])) {
     return { ok: false, error: "Invalid status." };
   }
+  if (!CATEGORIES.includes(category as (typeof CATEGORIES)[number])) {
+    return { ok: false, error: "Invalid category." };
+  }
 
   const dependencyPerson = dependencyType === "Other" ? dependencyPersonRaw : null;
   const completedAt = status === "Completed" ? new Date().toISOString() : null;
@@ -104,6 +113,7 @@ export async function updateTask(
       dependency_type: dependencyType,
       dependency_person: dependencyPerson,
       status,
+      category,
       completed_at: completedAt,
     })
     .eq("id", id);
