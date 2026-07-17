@@ -34,7 +34,9 @@ export function EditTaskDialog({ task }: { task: Task }) {
   );
   const [priority, setPriority] = useState<Priority>(task.priority);
   const [status, setStatus] = useState<Status>(task.status);
-  const [category, setCategory] = useState<Category>(task.category);
+  const [category, setCategory] = useState<Category>(
+    task.category ?? CATEGORIES[0]
+  );
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -43,7 +45,7 @@ export function EditTaskDialog({ task }: { task: Task }) {
     setDependencyType(task.dependency_type);
     setPriority(task.priority);
     setStatus(task.status);
-    setCategory(task.category);
+    setCategory(task.category ?? CATEGORIES[0]);
   }
 
   function handleSubmit(formData: FormData) {
