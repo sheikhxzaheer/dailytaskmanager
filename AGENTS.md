@@ -8,7 +8,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - After finishing a task or feature (code compiles, typechecks, and lints clean), commit it — don't wait to be asked. Stage only the files belonging to that feature, not an unrelated `git add -A`.
 - Push to `origin main` right after committing. The remote is already configured; no confirmation needed for routine commit+push on this branch.
-- Use Conventional Commits style: `feat: …`, `fix: …`, `refactor: …`, `chore: …`, `docs: …`. Subject line under ~70 chars, imperative mood. Always include a body with a few bullet points explaining what changed and why — not just the subject line, even for single-file commits.
+- **No Conventional Commits prefixes** (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, etc.) and **no coding/file vocabulary** in the subject or body — no file names, function/component/table names, "API", "endpoint", "migration", "hydration", "prop", "cache", "DB", "cron", "schema", and the like. Write for someone who has never seen the code: what part of the app changed, and what they can now do or see differently.
+  - Subject line: one plain-English sentence describing the outcome, not the mechanism. Imperative mood, under ~70 chars where it fits, but clarity wins over brevity.
+  - Body: 2-4 bullet points in the same plain language — what changed from the user's point of view, and why it matters. Always include a body, even for a one-file change.
+  - Translate the mechanism into the effect. "Added a DB table to cache GitHub commits" → "Made the GitHub tab load instantly by remembering today's commits instead of re-fetching them every time." "Fixed hydration mismatch on date heading" → "Fixed the GitHub tab's date sometimes flickering to a different value right after the page loads."
+  - Good: `Let you pick any past day on the GitHub tab and see exactly what was committed that day`
+  - Bad: `feat: add date picker component to GithubCommits.tsx`
 - Still ask before anything destructive or history-rewriting: force-push, `git reset --hard`, rebasing published commits, or deleting branches. Routine commit+push is pre-authorized; those are not.
 - Never commit secrets. `.env.local` is gitignored — keep it that way. `.env.example` (real filename, no secrets) is the only `.env*` file meant to be tracked.
 
